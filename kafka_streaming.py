@@ -29,8 +29,8 @@ def format_data(res):
     data['username'] = res['login']['username']
     data['dob'] = res['dob']['date']
     data['registerted_date'] = res['registered']['date']
-    data['phone'] = res['phones']
-    data['picture'] = data['picture']['medium']
+    data['phone'] = res['phone']
+    data['picture'] = res['picture']['medium']
     return data
     
                     
@@ -43,6 +43,10 @@ def format_data(res):
 def stream_data():
     import json
     import requests
+
+    res = get_data()
+    res = format_data(res)
+    print(json.dumps(res, indent=3))
 
     
 
