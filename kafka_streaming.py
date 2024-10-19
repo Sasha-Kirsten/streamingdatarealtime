@@ -14,7 +14,28 @@ def get_data():
     res = requests.get("https://randomuser.me/api/")
     res = res.json()
     res = res['results'][0]
-    print(json.dumps(res, indent= 3))
+    # print(json.dumps(res, indent= 3))
+    return res
+
+def format_data(res):
+    data = {}
+    location = res['location']
+    data['first_name'] = res['name']['first']
+    data['last_name'] = res['name']['last']
+    data['gender'] = res['gender']
+    data['address'] = f"{str(location['street']['number'])} {location['street']['name']}, {location['city']}, {location['state']}, {location['country']}" ## I might need to double check here later
+    data['postcode'] = location['postcode']
+    data['email'] = res['email']
+    data['username'] = res['login']['username']
+    data['dob'] = res['dob']['date']
+    data['registerted_date'] = res['registered']['date']
+    data['phone'] = res['phones']
+    data['picture'] = data['picture']['medium']
+    return data
+    
+                    
+
+
 
     
 
