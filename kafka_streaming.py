@@ -14,7 +14,6 @@ def get_data():
     res = requests.get("https://randomuser.me/api/")
     res = res.json()
     res = res['results'][0]
-    # print(json.dumps(res, indent= 3))
     return res
 
 def format_data(res):
@@ -41,12 +40,19 @@ def format_data(res):
 
 
 def stream_data():
+    from kafka import KafkaProducer
     import json
-    import requests
+    import time
+    # import requests
 
     res = get_data()
     res = format_data(res)
-    print(json.dumps(res, indent=3))
+    # print(json.dumps(res, indent=3))
+
+    producer = KafkaProducer(bootstrap_servers=['localhost:9092'], max_block_ms=5000)
+
+    producer.send('users_created', json.dumps(res).encode('utf-8'))
+
 
     
 
