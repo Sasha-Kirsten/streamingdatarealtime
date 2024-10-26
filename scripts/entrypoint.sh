@@ -4,7 +4,7 @@ set -e
 
 # Install requirements if the requirements.txt file exists
 if [  -e "/Users/aleksanderkirsten/streamingdatarealtime/requirements.txt"  ]; then
-    $(command python) pip install --upgrade pip
+    # $(command python) pip install --upgrade pip
     # python -m pip install --upgrade pip
     $(command -v pip) install --user -r /Users/aleksanderkirsten/streamingdatarealtime/requirements.txt
     # pip install --user -r /Users/aleksanderkirsten/streamingdatarealtime/requirements.txt

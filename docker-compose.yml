@@ -26,13 +26,16 @@ services:
       zookeeper:
         condition: service_healthy
     ports:
-      - "9092:9092"
+      # - "29092:29092"
       - "9101:9101"
+      - "9092:9092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092 #//localhost:9092
+      # KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092 #//localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT_HOST://localhost:9092,PLAINTEXT://broker:29092
+      # KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
@@ -157,19 +160,19 @@ services:
     volumes:
       - ./dags:/streamingdatarealtime/dags
       - ./scripts/entrypoint.sh:/Users/aleksanderkirsten/streamingdatarealtime/scripts/entrypoint.sh
-      - ./requirements.txt:/Users/aleksanderkirsten/streamingdatarealtime/requirements.txt
+      - /Users/aleksanderkirsten/streamingdatarealtime/requirements.txt:/Users/aleksanderkirsten/streamingdatarealtime/requirements.txt
     environment:
       - LOAD_EX=n
       - EXECUTOR=Sequential
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
       - AIRFLOW_WEBSERVER_SECRET_KEY=this_is_a_very_secured_key
-    command: bash -c "pip install -r ./requirements.txt && airflow db upgrade && airflow scheduler"
+    command: bash -c "pip install -r /Users/aleksanderkirsten/streamingdatarealtime/requirements.txt && airflow db upgrade && airflow scheduler"
     networks:
       - confluent
 
 networks:
   confluent:
-    driver: bridge
+    # driver: bridge
 
 #   spark-master:
 #     image: bitnami/spark:latest
